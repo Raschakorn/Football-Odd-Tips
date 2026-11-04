@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BallScore TH | ผลบอลสด ตารางบอล วิเคราะห์บอล</title>
+<meta name="description" content="ผลบอลสด ตารางแข่งขัน วิเคราะห์บอล และข่าวกีฬา อัปเดตทุกวัน">
+<style>
+  :root {
+    --bg: #0b1120;
+    --card: #111827;
+    --border: #1f2937;
+    --primary: #3b82f6;
+    --gold: #f59e0b;
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+    --live: #ef4444;
+    --success: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* Header */
+  header {
+    background: #020617;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo span { color: var(--gold); }
+
+  nav { display: flex; gap: 8px; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active {
+    background: var(--card);
+    color: white;
+  }
+
+  .menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: #020617;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Main */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  section {
+    margin-bottom: 48px;
+  }
+  .section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 22px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* Cards & Tables */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 14px 16px;
+    text-align: left;
+  }
+  th {
+    background: #0f172a;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  tr { border-bottom: 1px solid var(--border); }
+  tr:last-child { border-bottom: none; }
+  tr:hover { background: #1e293b; }
+
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--live);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .live-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--live);
+    border-radius: 50%;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .score {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  /* Analysis Cards */
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .analysis-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .analysis-card h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  .prediction {
+    display: inline-block;
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 8px 0;
+  }
+  .score-predict {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 8px 0;
+  }
+
+  /* News */
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .news-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .news-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: #1e293b;
+  }
+  .news-content { padding: 16px; }
+  .news-content h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .news-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* Stream Table */
+  .stream-note {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  /* Footer */
+  footer {
+    background: #020617;
+    border-top: 1px solid var(--border);
+    padding: 40px 16px;
+    margin-top: 40px;
+  }
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+  }
+  .footer-col h4 {
+    color: white;
+    margin-bottom: 16px;
+    font-size: 1rem;
+  }
+  .footer-col a, .footer-col p {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .footer-col a:hover { color: white; }
+  .copyright {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .menu-btn { display: block; }
+    .mobile-menu.active { display: flex; }
+    th, td { padding: 12px 10px; font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="nav-container">
+    <div class="logo">⚽ BallScore <span>TH</span></div>
+    <nav>
+      <a href="#home" class="active">หน้าแรก</a>
+      <a href="#live">ผลการแข่งขัน</a>
+      <a href="#today">ตารางวันนี้</a>
+      <a href="#tomorrow">ตารางพรุ่งนี้</a>
+      <a href="#analysis">วิเคราะห์</a>
+      <a href="#stream">ดูบอลสด</a>
+      <a href="#news">ข่าว</a>
+    </nav>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" onclick="toggleMenu()">หน้าแรก</a>
+    <a href="#live" onclick="toggleMenu()">ผลการแข่งขัน</a>
+    <a href="#today" onclick="toggleMenu()">ตารางวันนี้</a>
+    <a href="#tomorrow" onclick="toggleMenu()">ตารางพรุ่งนี้</a>
+    <a href="#analysis" onclick="toggleMenu()">วิเคราะห์บอล</a>
+    <a href="#stream" onclick="toggleMenu()">ดูบอลสด</a>
+    <a href="#news" onclick="toggleMenu()">ข่าวกีฬา</a>
+  </div>
+</header>
+
+<main>
+  <!-- Live Results -->
+  <section id="live">
+    <h2 class="section-title">ผลการแข่งขันสด</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>สถานะ</th>
+            <th>คู่แข่งขัน</th>
+            <th>ผล</th>
+            <th>ลีก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="live-badge">LIVE</span></td>
+            <td colspan="3" style="color:var(--muted)">ยังไม่มีคู่ที่กำลังแข่ง (จะอัปเดตเมื่อมี)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin: 32px 0 16px; color: var(--muted); font-size: 1.1rem;">ผลเมื่อวาน</h3>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>คู่แข่งขัน</th>
+            <th>ผล</th>
+            <th>ลีก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Liverpool vs Brighton</td>
+            <td class="score">2 - 0</td>
+            <td>Premier League</td>
+          </tr>
+          <tr>
+            <td>Man United vs Bournemouth</td>
+            <td class="score">0 - 3</td>
+            <td>Premier League</td>
+          </tr>
+          <tr>
+            <td>Inter vs Fiorentina</td>
+            <td class="score">2 - 1</td>
+            <td>Serie A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Today Fixtures -->
+  <section id="today">
+    <h2 class="section-title">ตารางฟุตบอลวันนี้</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>เวลา</th>
+            <th>คู่แข่งขัน</th>
+            <th>ลีก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="3" style="text-align:center; color:var(--muted); padding: 24px;">
+              ข้อมูลจะอัปเดตทุกเช้า 10:00 น.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Tomorrow -->
+  <section id="tomorrow">
+    <h2 class="section-title">ตารางแข่งขันพรุ่งนี้</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>เวลา</th>
+            <th>คู่แข่งขัน</th>
+            <th>ลีก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="3" style="text-align:center; color:var(--muted); padding: 24px;">
+              ข้อมูลตารางพรุ่งนี้จะอัปเดตในวันถัดไป
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Analysis -->
+  <section id="analysis">
+    <h2 class="section-title">วิเคราะห์บอลวันนี้</h2>
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <h3>รอข้อมูลวิเคราะห์</h3>
+        <div class="prediction">จะอัปเดตตอน 16:00 น.</div>
+        <p style="color:var(--muted); font-size:0.9rem;">ระบบจะลงข้อมูลวิเคราะห์ทุกวันเวลา 16:00 น. ตามเวลาไทย</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Watch Live -->
+  <section id="stream">
+    <h2 class="section-title">ดูบอลสด</h2>
+    <div class="stream-note">
+      ⚠️ เว็บไซต์นี้แนะนำเฉพาะช่องทางถ่ายทอดสดที่ถูกกฎหมายเท่านั้น<br>
+      ช่องทางขึ้นอยู่กับประเทศที่คุณอยู่ กรุณาตรวจสอบแพลตฟอร์มที่มีลิขสิทธิ์ในพื้นที่ของคุณ
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>คู่แข่งขัน</th>
+            <th>ช่องทางถูกกฎหมาย (ตัวอย่าง)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2" style="text-align:center; color:var(--muted); padding: 20px;">
+              จะแสดงเมื่อมีคู่แข่งในวันนั้น
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section id="news">
+    <h2 class="section-title">ข่าวกีฬาวันนี้</h2>
+    <div class="news-grid">
+      <div class="news-card">
+        <div style="height:160px; background:linear-gradient(135deg,#1e3a8a,#1e40af); display:flex; align-items:center; justify-content:center; font-size:2rem;">⚽</div>
+        <div class="news-content">
+          <h3>แมนฯ ยูไนเต็ด แพ้โบว์นมัธ 0-3 กดดันแคร์ริกหนัก</h3>
+          <p class="news-meta">พรีเมียร์ลีก • ข้อมูลตัวอย่าง</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div style="height:160px; background:linear-gradient(135deg,#7f1d1d,#991b1b); display:flex; align-items:center; justify-content:center; font-size:2rem;">🔴</div>
+        <div class="news-content">
+          <h3>ลิเวอร์พูล ชนะไบรท์ตัน 2-0 ที่แอนฟิลด์</h3>
+          <p class="news-meta">พรีเมียร์ลีก • ข้อมูลตัวอย่าง</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div style="height:160px; background:linear-gradient(135deg,#1e3a8a,#172554); display:flex; align-items:center; justify-content:center; font-size:2rem;">🔵</div>
+        <div class="news-content">
+          <h3>อินเตอร์ พลิกชนะฟิออเรนตินา 2-1 ช่วงทดเจ็บ</h3>
+          <p class="news-meta">เซเรีย อา • ข้อมูลตัวอย่าง</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>BallScore TH</h4>
+      <p>ศูนย์รวมผลบอลสด ตารางแข่งขัน และวิเคราะห์บอล อัปเดตทุกวัน</p>
+    </div>
+    <div class="footer-col">
+      <h4>เมนู</h4>
+      <a href="#live">ผลการแข่งขัน</a>
+      <a href="#today">ตารางบอลวันนี้</a>
+      <a href="#analysis">วิเคราะห์บอล</a>
+      <a href="#news">ข่าวกีฬา</a>
+    </div>
+    <div class="footer-col">
+      <h4>ข้อมูลเว็บ</h4>
+      <a href="#">นโยบายความเป็นส่วนตัว</a>
+      <a href="#">ข้อกำหนดการให้บริการ</a>
+      <a href="#">ติดต่อโฆษณา</a>
+    </div>
+    <div class="footer-col">
+      <h4>ติดต่อโฆษณา</h4>
+      <p>ไม่รับโฆษณาเว็บพนันทุกประเภท</p>
+      <p>รับเฉพาะโฆษณาที่เกี่ยวข้องกับกีฬาและไลฟ์สไตล์ที่เหมาะสม</p>
+    </div>
+  </div>
+  <div class="copyright">
+    © 2026 BallScore TH • สงวนลิขสิทธิ์
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('active');
+  }
+</script>
+</body>
+</html>
