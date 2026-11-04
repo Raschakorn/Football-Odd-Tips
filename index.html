@@ -26,7 +26,6 @@
     line-height: 1.6;
   }
 
-  /* Header */
   header {
     background: #020617;
     border-bottom: 1px solid var(--border);
@@ -76,7 +75,6 @@
     cursor: pointer;
   }
 
-  /* Mobile Menu */
   .mobile-menu {
     display: none;
     flex-direction: column;
@@ -91,7 +89,6 @@
     border-bottom: 1px solid var(--border);
   }
 
-  /* Main */
   main {
     max-width: 1200px;
     margin: 0 auto;
@@ -117,7 +114,6 @@
     border-radius: 2px;
   }
 
-  /* Cards & Tables */
   .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -175,7 +171,6 @@
     letter-spacing: 1px;
   }
 
-  /* Analysis Cards */
   .analysis-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -208,7 +203,6 @@
     margin: 8px 0;
   }
 
-  /* News */
   .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -219,12 +213,6 @@
     border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
-  }
-  .news-card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    background: #1e293b;
   }
   .news-content { padding: 16px; }
   .news-content h3 {
@@ -237,7 +225,6 @@
     color: var(--muted);
   }
 
-  /* Stream Table */
   .stream-note {
     background: rgba(245, 158, 11, 0.1);
     border: 1px solid rgba(245, 158, 11, 0.3);
@@ -248,7 +235,6 @@
     margin-bottom: 16px;
   }
 
-  /* Footer */
   footer {
     background: #020617;
     border-top: 1px solid var(--border);
@@ -284,7 +270,6 @@
     border-top: 1px solid var(--border);
   }
 
-  /* Responsive */
   @media (max-width: 768px) {
     nav { display: none; }
     .menu-btn { display: block; }
@@ -295,13 +280,11 @@
 </head>
 <body>
 
-<!-- Header -->
 <header>
   <div class="nav-container">
     <div class="logo">⚽ BallScore <span>TH</span></div>
     <nav>
-      <a href="#home" class="active">หน้าแรก</a>
-      <a href="#live">ผลการแข่งขัน</a>
+      <a href="#live" class="active">ผลการแข่งขัน</a>
       <a href="#today">ตารางวันนี้</a>
       <a href="#tomorrow">ตารางพรุ่งนี้</a>
       <a href="#analysis">วิเคราะห์</a>
@@ -311,7 +294,6 @@
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#home" onclick="toggleMenu()">หน้าแรก</a>
     <a href="#live" onclick="toggleMenu()">ผลการแข่งขัน</a>
     <a href="#today" onclick="toggleMenu()">ตารางวันนี้</a>
     <a href="#tomorrow" onclick="toggleMenu()">ตารางพรุ่งนี้</a>
@@ -338,13 +320,13 @@
         <tbody>
           <tr>
             <td><span class="live-badge">LIVE</span></td>
-            <td colspan="3" style="color:var(--muted)">ยังไม่มีคู่ที่กำลังแข่ง (จะอัปเดตเมื่อมี)</td>
+            <td colspan="3" style="color:var(--muted)">ขณะนี้ยังไม่มีคู่ที่กำลังแข่ง (อัปเดตอัตโนมัติเมื่อมี)</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <h3 style="margin: 32px 0 16px; color: var(--muted); font-size: 1.1rem;">ผลเมื่อวาน</h3>
+    <h3 style="margin: 32px 0 16px; color: var(--muted); font-size: 1.1rem;">ผลเมื่อวาน (3 พ.ย. 2026)</h3>
     <div class="card">
       <table>
         <thead>
@@ -356,19 +338,39 @@
         </thead>
         <tbody>
           <tr>
-            <td>Liverpool vs Brighton</td>
-            <td class="score">2 - 0</td>
-            <td>Premier League</td>
+            <td>Manchester United vs Roma</td>
+            <td class="score">3 - 2</td>
+            <td>Champions League</td>
           </tr>
           <tr>
-            <td>Man United vs Bournemouth</td>
+            <td>Feyenoord vs Inter</td>
             <td class="score">0 - 3</td>
-            <td>Premier League</td>
+            <td>Champions League</td>
           </tr>
           <tr>
-            <td>Inter vs Fiorentina</td>
-            <td class="score">2 - 1</td>
-            <td>Serie A</td>
+            <td>Barcelona vs Aston Villa</td>
+            <td class="score">3 - 0</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>Villarreal vs PSG</td>
+            <td class="score">0 - 6</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>Atletico Madrid vs Bayern</td>
+            <td class="score">0 - 2</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>Galatasaray vs Stuttgart</td>
+            <td class="score">2 - 0</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>Shakhtar vs Sporting CP</td>
+            <td class="score">0 - 1</td>
+            <td>Champions League</td>
           </tr>
         </tbody>
       </table>
@@ -377,21 +379,56 @@
 
   <!-- Today Fixtures -->
   <section id="today">
-    <h2 class="section-title">ตารางฟุตบอลวันนี้</h2>
+    <h2 class="section-title">ตารางฟุตบอลวันนี้ (4 พ.ย. 2026)</h2>
     <div class="card">
       <table>
         <thead>
           <tr>
-            <th>เวลา</th>
+            <th>เวลา (ไทย)</th>
             <th>คู่แข่งขัน</th>
             <th>ลีก</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colspan="3" style="text-align:center; color:var(--muted); padding: 24px;">
-              ข้อมูลจะอัปเดตทุกเช้า 10:00 น.
-            </td>
+            <td>00:45</td>
+            <td>Fenerbahçe vs Liverpool</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>00:45</td>
+            <td>AEK Athens vs Real Madrid</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>Borussia Dortmund vs Real Betis</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>RB Leipzig vs Manchester City</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>Slavia Prague vs Arsenal</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>Porto vs Napoli</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>PSV vs Club Brugge</td>
+            <td>Champions League</td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>Lens vs Como</td>
+            <td>Champions League</td>
           </tr>
         </tbody>
       </table>
@@ -413,7 +450,7 @@
         <tbody>
           <tr>
             <td colspan="3" style="text-align:center; color:var(--muted); padding: 24px;">
-              ข้อมูลตารางพรุ่งนี้จะอัปเดตในวันถัดไป
+              ข้อมูลจะอัปเดตในวันถัดไป
             </td>
           </tr>
         </tbody>
@@ -426,9 +463,22 @@
     <h2 class="section-title">วิเคราะห์บอลวันนี้</h2>
     <div class="analysis-grid">
       <div class="analysis-card">
-        <h3>รอข้อมูลวิเคราะห์</h3>
-        <div class="prediction">จะอัปเดตตอน 16:00 น.</div>
-        <p style="color:var(--muted); font-size:0.9rem;">ระบบจะลงข้อมูลวิเคราะห์ทุกวันเวลา 16:00 น. ตามเวลาไทย</p>
+        <h3>Fenerbahçe vs Liverpool</h3>
+        <div class="prediction">ทีมเยือนน่าชนะ</div>
+        <div class="score-predict">1 - 2</div>
+        <p style="color:var(--muted); font-size:0.9rem;">ลิเวอร์พูลฟอร์มดีในแชมเปียนส์ลีก น่าจะเก็บชัยชนะนอกบ้านได้</p>
+      </div>
+      <div class="analysis-card">
+        <h3>Slavia Prague vs Arsenal</h3>
+        <div class="prediction">ทีมเยือนชนะขาด</div>
+        <div class="score-predict">0 - 2</div>
+        <p style="color:var(--muted); font-size:0.9rem;">อาร์เซนอลชุดใหญ่ น่าจะควบคุมเกมได้ไม่ยาก</p>
+      </div>
+      <div class="analysis-card">
+        <h3>RB Leipzig vs Man City</h3>
+        <div class="prediction">ทีมเยือนน่าชนะ</div>
+        <div class="score-predict">1 - 3</div>
+        <p style="color:var(--muted); font-size:0.9rem;">แมนซิตี้ยังคงแข็งแกร่งในเกมยุโรป</p>
       </div>
     </div>
   </section>
@@ -438,7 +488,7 @@
     <h2 class="section-title">ดูบอลสด</h2>
     <div class="stream-note">
       ⚠️ เว็บไซต์นี้แนะนำเฉพาะช่องทางถ่ายทอดสดที่ถูกกฎหมายเท่านั้น<br>
-      ช่องทางขึ้นอยู่กับประเทศที่คุณอยู่ กรุณาตรวจสอบแพลตฟอร์มที่มีลิขสิทธิ์ในพื้นที่ของคุณ
+      ช่องทางขึ้นอยู่กับประเทศที่คุณอยู่ กรุณาตรวจสอบแพลตฟอร์มที่มีลิขสิทธิ์ในพื้นที่ของคุณ (เช่น beIN SPORTS, TrueVisions ฯลฯ)
     </div>
     <div class="card">
       <table>
@@ -450,9 +500,16 @@
         </thead>
         <tbody>
           <tr>
-            <td colspan="2" style="text-align:center; color:var(--muted); padding: 20px;">
-              จะแสดงเมื่อมีคู่แข่งในวันนั้น
-            </td>
+            <td>Fenerbahçe vs Liverpool</td>
+            <td>beIN SPORTS / TrueVisions</td>
+          </tr>
+          <tr>
+            <td>Slavia Prague vs Arsenal</td>
+            <td>beIN SPORTS / TrueVisions</td>
+          </tr>
+          <tr>
+            <td>RB Leipzig vs Man City</td>
+            <td>beIN SPORTS / TrueVisions</td>
           </tr>
         </tbody>
       </table>
@@ -466,29 +523,28 @@
       <div class="news-card">
         <div style="height:160px; background:linear-gradient(135deg,#1e3a8a,#1e40af); display:flex; align-items:center; justify-content:center; font-size:2rem;">⚽</div>
         <div class="news-content">
-          <h3>แมนฯ ยูไนเต็ด แพ้โบว์นมัธ 0-3 กดดันแคร์ริกหนัก</h3>
-          <p class="news-meta">พรีเมียร์ลีก • ข้อมูลตัวอย่าง</p>
+          <h3>แมนฯ ยูไนเต็ด พลิกชนะโรม่า 3-2 ในแชมเปียนส์ลีก</h3>
+          <p class="news-meta">Champions League • เมื่อวานนี้</p>
         </div>
       </div>
       <div class="news-card">
         <div style="height:160px; background:linear-gradient(135deg,#7f1d1d,#991b1b); display:flex; align-items:center; justify-content:center; font-size:2rem;">🔴</div>
         <div class="news-content">
-          <h3>ลิเวอร์พูล ชนะไบรท์ตัน 2-0 ที่แอนฟิลด์</h3>
-          <p class="news-meta">พรีเมียร์ลีก • ข้อมูลตัวอย่าง</p>
+          <h3>บาร์เซโลนา ถล่มแอสตัน วิลล่า 3-0</h3>
+          <p class="news-meta">Champions League • เมื่อวานนี้</p>
         </div>
       </div>
       <div class="news-card">
         <div style="height:160px; background:linear-gradient(135deg,#1e3a8a,#172554); display:flex; align-items:center; justify-content:center; font-size:2rem;">🔵</div>
         <div class="news-content">
-          <h3>อินเตอร์ พลิกชนะฟิออเรนตินา 2-1 ช่วงทดเจ็บ</h3>
-          <p class="news-meta">เซเรีย อา • ข้อมูลตัวอย่าง</p>
+          <h3>เปแอสเช ถล่มบียาร์เรอัล 6-0 สุดยอด</h3>
+          <p class="news-meta">Champions League • เมื่อวานนี้</p>
         </div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- Footer -->
 <footer>
   <div class="footer-content">
     <div class="footer-col">
